@@ -4,29 +4,37 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 
 /**
  * Created by joschkaschulz on 03.03.17.
  */
 public class CameraMoveSystem extends EntitySystem {
-    private OrthographicCamera camera;
+    private PerspectiveCamera camera;
 
-    public CameraMoveSystem(OrthographicCamera camera) {
+    public CameraMoveSystem(PerspectiveCamera camera) {
         this.camera = camera;
     }
 
     public void update(float deltaTime) {
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            camera.position.add(1,0,0);
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && camera.position.x < 0.3) {
+            camera.position.add(0.01f,0,0);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            camera.position.add(-1,0,0);
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) && camera.position.x > -0.3) {
+            camera.position.add(-0.01f,0,0);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            camera.position.add(0,1,0);
+//        if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+//            camera.position.add(0,0.01f,0);
+//        }
+//        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+//            camera.position.add(0,-0.01f,0);
+//        }
+        if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
+            camera.position.add(0,0,0.01f);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            camera.position.add(0,-1,0);
+        if(Gdx.input.isKeyPressed(Input.Keys.ALT_RIGHT)) {
+            camera.position.add(0,0,-0.01f);
         }
+
     }
 }

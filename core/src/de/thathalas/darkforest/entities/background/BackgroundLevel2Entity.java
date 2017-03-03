@@ -10,7 +10,7 @@ import de.thathalas.darkforest.components.TextureComponent;
  */
 public class BackgroundLevel2Entity extends Entity {
     public BackgroundLevel2Entity() {
-        add(new PositionComponent(0,0,20));
+        add(new PositionComponent(0,0,-0.4f));
         add(new TextureComponent(AssetHandler.BACKGROUND_LEVEL_2));
     }
 }
