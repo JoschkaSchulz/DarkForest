@@ -10,7 +10,7 @@ import de.thathalas.darkforest.components.TextureComponent;
  */
 public class ForegroundLevel1Entity extends Entity {
     public ForegroundLevel1Entity() {
-        add(new PositionComponent(0,0,0));
+        add(new PositionComponent(0,0,1.75f));
         add(new TextureComponent(AssetHandler.FOREGROUND_LEVEL_1));
     }
 }

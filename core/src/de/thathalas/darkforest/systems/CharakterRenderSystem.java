@@ -5,25 +5,21 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.decals.CameraGroupStrategy;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
 import com.badlogic.gdx.utils.Array;
 import de.thathalas.darkforest.DarkForest;
-import de.thathalas.darkforest.components.PlayerAnimationComponent;
+import de.thathalas.darkforest.components.CharakterComponent;
 import de.thathalas.darkforest.components.PositionComponent;
-import de.thathalas.darkforest.components.TextureComponent;
 
 import java.util.Comparator;
 
 /**
  * Created by joschkaschulz on 03.03.17.
  */
-public class PlayerRenderSystem extends IteratingSystem {
+public class CharakterRenderSystem extends IteratingSystem {
     private Engine engine;
     private Array<Entity> renderQueue;
     private DecalBatch batch;
@@ -33,19 +29,19 @@ public class PlayerRenderSystem extends IteratingSystem {
     private Decal decal;
     private float stateTime;
 
-    private PlayerAnimationComponent playerAnimation;
+    private CharakterComponent charakter;
     private TextureRegion texture;
     private PositionComponent position;
 
     private ComponentMapper<PositionComponent> pm;
-    private ComponentMapper<PlayerAnimationComponent> pam;
+    private ComponentMapper<CharakterComponent> pam;
 
-    public PlayerRenderSystem(PerspectiveCamera camera, DecalBatch batch) {
-        super(Family.all(PositionComponent.class, PlayerAnimationComponent.class).get());
+    public CharakterRenderSystem(PerspectiveCamera camera, DecalBatch batch) {
+        super(Family.all(PositionComponent.class, CharakterComponent.class).get());
         stateTime = 0;
 
         pm = ComponentMapper.getFor(PositionComponent.class);
-        pam = ComponentMapper.getFor(PlayerAnimationComponent.class);
+        pam = ComponentMapper.getFor(CharakterComponent.class);
 
         comparator = new Comparator<Entity>() {
             @Override
@@ -74,13 +70,12 @@ public class PlayerRenderSystem extends IteratingSystem {
         renderQueue.sort(comparator);
 
         for(Entity entity : renderQueue) {
-            playerAnimation = pam.get(entity);
-            texture = playerAnimation.walkAnimation.getKeyFrame(stateTime, true);
+            charakter = pam.get(entity);
+            texture = charakter.getFrame(stateTime);
             position = pm.get(entity);
-
             Decal decal = Decal.newDecal(
-                    DarkForest.pixelInMeter(texture.getRegionHeight()*8),
-                    DarkForest.pixelInMeter(texture.getRegionWidth()*8),
+                    DarkForest.pixelInMeter(texture.getRegionHeight()),
+                    DarkForest.pixelInMeter(texture.getRegionWidth()),
                     texture, true);
             decal.setPosition(position.x, position.y-0.1f, position.z);
             batch.add(decal);

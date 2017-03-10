@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.decals.CameraGroupStrategy;
 import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
 import de.thathalas.darkforest.entities.background.BackgroundLevel1Entity;
@@ -14,7 +12,8 @@ import de.thathalas.darkforest.entities.background.BackgroundLevel2Entity;
 import de.thathalas.darkforest.entities.background.ForegroundLevel1Entity;
 import de.thathalas.darkforest.entities.player.Cappy;
 import de.thathalas.darkforest.systems.CameraMoveSystem;
-import de.thathalas.darkforest.systems.PlayerRenderSystem;
+import de.thathalas.darkforest.systems.CharakterRenderSystem;
+import de.thathalas.darkforest.systems.PlayerControllSystem;
 import de.thathalas.darkforest.systems.RenderSystem;
 
 public class DarkForest extends ApplicationAdapter {
@@ -37,14 +36,15 @@ public class DarkForest extends ApplicationAdapter {
 		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0);
 		camera.near = 0.01f;
 		camera.far = 20;
-		camera.position.set(-0.3f, 0, 0.25f);
+		camera.position.set(-0.3f, 0, 3.5f);
 
 		batch = new DecalBatch(new CameraGroupStrategy(camera));
 
 		engine = new Engine();
+		engine.addSystem(new PlayerControllSystem());
 		engine.addSystem(new RenderSystem(camera, batch));
 		engine.addSystem(new CameraMoveSystem(camera));
-		engine.addSystem(new PlayerRenderSystem(camera, batch));
+		engine.addSystem(new CharakterRenderSystem(camera, batch));
 
 		engine.addEntity(new BackgroundLevel1Entity());
 		engine.addEntity(new BackgroundLevel2Entity());

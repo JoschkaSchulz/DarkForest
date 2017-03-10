@@ -72,6 +72,11 @@ public class RenderSystem extends IteratingSystem {
                     DarkForest.pixelInMeter(texture.getRegionHeight()),
                     DarkForest.pixelInMeter(texture.getRegionWidth()),
                     texture, true);
+            if (position.z < 0) {
+                decal.setScale(Math.abs(position.z * 7.5f));
+            } else {
+                decal.setScale(1 + position.z * 3);
+            }
             decal.setPosition(position.x, position.y, position.z);
             batch.add(decal);
         }
